@@ -1,8 +1,9 @@
 package streams;
 
+import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 public class Test {
@@ -17,24 +18,40 @@ public class Test {
 		authors.add(new Author(99, "Tolkien", Gender.MALE));
 				
 		List<Book> library = new ArrayList<>();
-		library.add(new Book("Libro 1", authors.get(0)));
-		library.add(new Book("Libro 2", authors.get(1)));
-		library.add(new Book("Libro 3", authors.get(2)));
-		library.add(new Book("Libro 4", authors.get(2)));
-		library.add(new Book("Libro 5", authors.get(0)));
-		library.add(new Book("Libro 6", authors.get(1)));
-		library.add(new Book("Libro 7", authors.get(0)));
-		library.add(new Book("Libro 8", authors.get(1)));
-		library.add(new Book("Libro 9", authors.get(0)));
-		
-		Stream<Book> s1 = library.stream().filter(s -> false);
-		Stream<Book> s2 = library.stream();
-		
-		library
+		library.add(new Book("Poesias", authors.get(0)));
+		library.add(new Book("La vida de los gatos", authors.get(1)));
+		library.add(new Book("Rinconete & Cortado", authors.get(2)));
+		library.add(new Book("Entremeses", authors.get(2)));
+		library.add(new Book("El puchero", authors.get(0)));
+		library.add(new Book("La batalla de las lombrices", authors.get(1)));
+		library.add(new Book("Ruleta: cambia tu suerte", authors.get(0)));
+		library.add(new Book("yonkis&gitanos", authors.get(1)));
+		library.add(new Book("Carne Machada", authors.get(0)));
+
+	/*	library
 				.stream()
 				.filter(b -> b.getAuthor().getGender() == Gender.MALE)
 				.map(b -> b.getTitle())
-				.sorted((s10, s20) -> - s10.length() + s20.length())
-				.forEach(s -> System.out.println(s));
+				.sorted((s1, s2) -> - s1.length() + s2.length())
+				.forEach(s -> System.out.println(s));*/
+						
+		int suma = library.stream()
+			.peek(b -> System.out.println(b.getTitle() + b.getAuthor()))
+			.limit(10)
+			.map(b -> b.getAuthor().getAge())
+			.reduce(0, (n1, n2) -> n1 + n2);
+		
+		System.out.println(suma);
+			
+		
+		
+				
+	/*	library
+				.stream()
+				.peek(b -> b.getAuthor().getSurname())
+				.limit(5)
+				.forEach(s -> System.out.println(s));*/
+				
+
 	}
 }
